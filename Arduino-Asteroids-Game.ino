@@ -72,7 +72,7 @@ void loop() {
 
 
   display.display();
-  delay(20);
+  delay(25);
 }
 
 inline void drawCross(int x, int y, int size) {
@@ -109,7 +109,7 @@ void winScreen() {
     
     display.println("You Win!");
     display.display();
-    delay(10);
+    delay(500);
   }
 }
 
@@ -121,15 +121,35 @@ void shoot() {
   stateDown = digitalRead(pinDown);
   if(!stateUp) {
     display.drawLine(screenX, screenY, screenX, 0, SSD1306_WHITE);
+    for(int i = 0; i<5; ++i) {
+      if(screenX >= positions[i*2] && screenX <= (positions[i*2]+10) && positions[i*2+1] <= screenY && alive[i]) {
+        alive[i] = false;
+      }
+    }
   }
   if(!stateLeft) {
     display.drawLine(screenX, screenY, 0, screenY, SSD1306_WHITE);
+    for(int i = 0; i<5; ++i) {
+      if(screenY >= positions[i*2+1] && screenY <= (positions[i*2+1]+10) && positions[i*2] <= screenX && alive[i]) {
+        alive[i] = false;
+      }
+    }
   }
   if(!stateRight) {
     display.drawLine(screenX, screenY, SCREEN_WIDTH, screenY, SSD1306_WHITE);
+    for(int i = 0; i<5; ++i) {
+      if(screenY >= positions[i*2+1] && screenY <= (positions[i*2+1]+10) && positions[i*2] >= screenX && alive[i]) {
+        alive[i] = false;
+      }
+    }
   }
   if(!stateDown) {
     display.drawLine(screenX, screenY, screenX, SCREEN_HEIGHT, SSD1306_WHITE);
+    for(int i = 0; i<5; ++i) {
+      if(screenX >= positions[i*2] && screenX <= (positions[i*2]+10) && positions[i*2+1] >= screenY && alive[i]) {
+        alive[i] = false;
+      }
+    }
   }
 }
 
