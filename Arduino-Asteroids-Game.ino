@@ -62,7 +62,7 @@ void setup() {
 
 void loop() {
   display.clearDisplay();
-
+  updateEnemyPositions(3);
   movement();
   drawEnemies();
 
@@ -113,7 +113,6 @@ void winScreen() {
   }
 }
 
-
 void shoot() {
   stateUp = digitalRead(pinUp);
   stateLeft = digitalRead(pinLeft);
@@ -153,3 +152,21 @@ void shoot() {
   }
 }
 
+void updateEnemyPositions(int movement) {
+  for(int i=0; i<5; ++i) {
+    positions[i*2] += random(-movement, movement+1);
+    positions[i*2+1] += random(-movement, movement+1);
+    if(positions[i*2] > 180) {
+      positions[i*2] = 180;
+    }
+    if(positions[i*2] < 0) {
+      positions[i*2] = 0;
+    }
+    if(positions[i*2+1] > 64) {
+      positions[i*2+1] = 64;
+    }
+    if(positions[i*2+1] < 0) {
+      positions[i*2+1] = 0;
+    }
+  }
+}
